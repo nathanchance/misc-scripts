@@ -1,4 +1,11 @@
-#!/usr/bin/env python3
+#!/usr/bin/env -S uv run --script
+# /// script
+# requires-python = ">=3.8"
+# dependencies = [
+#     "py-markdown-table>=1.3.0",
+# ]
+# ///
+
 # pylint: disable=invalid-name
 
 from argparse import ArgumentParser
@@ -6,6 +13,9 @@ import re
 import shlex
 import shutil
 import subprocess
+
+# pylint: disable-next=import-error
+from py_markdown_table.markdown_table import markdown_table
 
 
 def print_cmd(args, command):
@@ -40,10 +50,6 @@ PARSER.add_argument('-q',
                     action='store_true',
                     help='Do not print commands being run')
 ARGS = PARSER.parse_args()
-
-if ARGS.markdown:
-    # pylint: disable-next=import-error
-    from py_markdown_table.markdown_table import markdown_table
 
 for MANAGER in (MANAGERS := ['podman', 'docker']):
     if shutil.which(MANAGER):
