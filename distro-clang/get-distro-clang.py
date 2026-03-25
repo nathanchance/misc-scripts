@@ -20,17 +20,12 @@ from py_markdown_table.markdown_table import markdown_table
 
 def print_cmd(args, command):
     if not args.quiet:
-        print(f"$ {' '.join([shlex.quote(str(elem)) for elem in command])}",
-              flush=True)
+        print(f"$ {' '.join([shlex.quote(str(elem)) for elem in command])}", flush=True)
 
 
 def chronic(*args, **kwargs):
     try:
-        return subprocess.run(*args,
-                              **kwargs,
-                              capture_output=True,
-                              check=True,
-                              text=True)
+        return subprocess.run(*args, **kwargs, capture_output=True, check=True, text=True)
     except subprocess.CalledProcessError as err:
         print(err.stdout)
         print(err.stderr)
@@ -38,25 +33,19 @@ def chronic(*args, **kwargs):
 
 
 PARSER = ArgumentParser(
-    description=
-    'Get clang version from various Linux distributions through docker/podman)'
+    description='Get clang version from various Linux distributions through docker/podman)'
 )
-PARSER.add_argument('-m',
-                    '--markdown',
-                    action='store_true',
-                    help='Output results as a Markdown table')
-PARSER.add_argument('-q',
-                    '--quiet',
-                    action='store_true',
-                    help='Do not print commands being run')
+PARSER.add_argument(
+    '-m', '--markdown', action='store_true', help='Output results as a Markdown table'
+)
+PARSER.add_argument('-q', '--quiet', action='store_true', help='Do not print commands being run')
 ARGS = PARSER.parse_args()
 
 for MANAGER in (MANAGERS := ['podman', 'docker']):
     if shutil.which(MANAGER):
         break
 else:
-    raise RuntimeError(
-        f"Neither {' nor '.join(MANAGERS)} could be found on your system!")
+    raise RuntimeError(f"Neither {' nor '.join(MANAGERS)} could be found on your system!")
 
 # This list should only include versions that are actively being supported.
 #
@@ -70,8 +59,10 @@ IMAGES = [
     #   * https://www.debian.org/releases/
     #   * https://wiki.debian.org/LTS
     #   * https://hub.docker.com/_/debian
-    *[('debian', f"{ver}-slim") for ver in
-      ['oldoldstable', 'oldstable', 'stable', 'testing', 'unstable']],
+    *[
+        ('debian', f"{ver}-slim")
+        for ver in ['oldoldstable', 'oldstable', 'stable', 'testing', 'unstable']
+    ],
     # Fedora:
     #   * https://fedoraproject.org/wiki/Releases
     #   * https://fedoraproject.org/wiki/End_of_life
@@ -86,8 +77,7 @@ IMAGES = [
     # Ubuntu:
     #   * https://wiki.ubuntu.com/Releases
     #   * https://hub.docker.com/_/ubuntu
-    *[('ubuntu', ver)
-      for ver in ['focal', 'jammy', 'noble', 'latest', 'rolling', 'devel']],
+    *[('ubuntu', ver) for ver in ['focal', 'jammy', 'noble', 'latest', 'rolling', 'devel']],
 ]
 
 RESULTS = {}
@@ -139,10 +129,13 @@ for ITEM in IMAGES:
     RESULT = chronic(RUN_CMD)
 
     # Locate clang version in output and add it to results
-    if not (match := re.search(
+    if not (
+        match := re.search(
             r'^[A-Za-z ]*?clang version [0-9]+\.[0-9]+\.[0-9]+.*$',
             RESULT.stdout,
-            flags=re.M)):
+            flags=re.M,
+        )
+    ):
         raise RuntimeError('Could not find clang version in output?')
     RESULTS[IMAGE] = match[0]
 
@@ -150,14 +143,18 @@ print()
 
 # Pretty print results
 if ARGS.markdown:
-    MD_DATA = [{
-        "Container image": f"`{key}`",
-        "Compiler version": f"`{value}`",
-    } for key, value in RESULTS.items()]
+    MD_DATA = [
+        {
+            "Container image": f"`{key}`",
+            "Compiler version": f"`{value}`",
+        }
+        for key, value in RESULTS.items()
+    ]
     print(
-        markdown_table(MD_DATA).set_params(padding_weight='right',
-                                           quote=False,
-                                           row_sep='markdown').get_markdown())
+        markdown_table(MD_DATA)
+        .set_params(padding_weight='right', quote=False, row_sep='markdown')
+        .get_markdown()
+    )
 else:
     WIDTH = len(max(RESULTS.keys(), key=len))
     for IMAGE, VERSION in RESULTS.items():
