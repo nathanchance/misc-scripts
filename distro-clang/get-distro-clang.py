@@ -45,7 +45,8 @@ for MANAGER in (MANAGERS := ['podman', 'docker']):
     if shutil.which(MANAGER):
         break
 else:
-    raise RuntimeError(f"Neither {' nor '.join(MANAGERS)} could be found on your system!")
+    msg = f"Neither {' nor '.join(MANAGERS)} could be found on your system!"
+    raise RuntimeError(msg)
 
 # This list should only include versions that are actively being supported.
 #
@@ -111,7 +112,8 @@ for ITEM in IMAGES:
         CMDS.append('zypper -n up')
         CMDS.append('zypper -n in clang')
     else:
-        raise RuntimeError(f"Don't know how to install clang on {DISTRO}?")
+        msg = f"Don't know how to install clang on {DISTRO}?"
+        raise RuntimeError(msg)
     CMDS.append('clang --version')
 
     # Run container manager with commands generated above.
@@ -136,7 +138,8 @@ for ITEM in IMAGES:
             flags=re.MULTILINE,
         )
     ):
-        raise RuntimeError('Could not find clang version in output?')
+        msg = 'Could not find clang version in output?'
+        raise RuntimeError(msg)
     RESULTS[IMAGE] = match[0]
 
 print()
