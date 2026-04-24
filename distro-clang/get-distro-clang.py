@@ -133,7 +133,7 @@ for ITEM in IMAGES:
         match := re.search(
             r'^[A-Za-z ]*?clang version [0-9]+\.[0-9]+\.[0-9]+.*$',
             RESULT.stdout,
-            flags=re.M,
+            flags=re.MULTILINE,
         )
     ):
         raise RuntimeError('Could not find clang version in output?')
