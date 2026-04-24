@@ -29,7 +29,7 @@ def chronic(*args, **kwargs):
     except subprocess.CalledProcessError as err:
         print(err.stdout)
         print(err.stderr)
-        raise err
+        raise
 
 
 PARSER = ArgumentParser(
