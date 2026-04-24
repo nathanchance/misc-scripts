@@ -15,7 +15,7 @@ import shutil
 import subprocess
 
 # pylint: disable-next=import-error
-from py_markdown_table.markdown_table import markdown_table
+from py_markdown_table.markdown_table import markdown_table  # ty: ignore[unresolved-import]
 
 
 def print_cmd(args, command):
