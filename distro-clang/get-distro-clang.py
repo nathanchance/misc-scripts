@@ -97,20 +97,28 @@ for ITEM in IMAGES:
     ENV_VARS = {}
     CMDS = []
     if DISTRO == 'archlinux':
-        CMDS.append('pacman -Syyu --noconfirm')
-        CMDS.append('pacman -S --noconfirm clang')
+        CMDS += [
+            'pacman -Syyu --noconfirm',
+            'pacman -S --noconfirm clang',
+        ]
     elif DISTRO in {'debian', 'ubuntu'}:
         ENV_VARS['DEBIAN_FRONTEND'] = 'noninteractive'
 
-        CMDS.append('apt-get update')
-        CMDS.append('apt-get upgrade -y')
-        CMDS.append('apt-get install --no-install-recommends -y clang')
+        CMDS += [
+            'apt-get update',
+            'apt-get upgrade -y',
+            'apt-get install --no-install-recommends -y clang',
+        ]
     elif DISTRO == 'fedora':
-        CMDS.append('dnf update -y')
-        CMDS.append('dnf install -y clang')
+        CMDS += [
+            'dnf update -y',
+            'dnf install -y clang',
+        ]
     elif 'opensuse' in DISTRO:
-        CMDS.append('zypper -n up')
-        CMDS.append('zypper -n in clang')
+        CMDS += [
+            'zypper -n up',
+            'zypper -n in clang',
+        ]
     else:
         msg = f"Don't know how to install clang on {DISTRO}?"
         raise RuntimeError(msg)
