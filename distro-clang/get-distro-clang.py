@@ -8,11 +8,11 @@
 
 # pylint: disable=invalid-name
 
-from argparse import ArgumentParser
 import re
 import shlex
 import shutil
 import subprocess
+from argparse import ArgumentParser
 
 # pylint: disable-next=import-error
 from py_markdown_table.markdown_table import markdown_table  # ty: ignore[unresolved-import]
