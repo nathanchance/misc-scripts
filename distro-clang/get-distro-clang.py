@@ -68,7 +68,7 @@ IMAGES = [
     #   * https://fedoraproject.org/wiki/Releases
     #   * https://fedoraproject.org/wiki/End_of_life
     #   * https://hub.docker.com/_/fedora
-    *[('fedora', ver) for ver in ['41', 'latest', 'rawhide']],
+    *[('fedora', ver) for ver in ['42', 'latest', '44', 'rawhide']],
     # OpenSUSE:
     #   * https://en.opensuse.org/openSUSE:Roadmap
     #   * https://en.opensuse.org/Lifetime
@@ -78,7 +78,10 @@ IMAGES = [
     # Ubuntu:
     #   * https://wiki.ubuntu.com/Releases
     #   * https://hub.docker.com/_/ubuntu
-    *[('ubuntu', ver) for ver in ['focal', 'jammy', 'noble', 'latest', 'rolling', 'devel']],
+    *[
+        ('ubuntu', ver)
+        for ver in ['jammy', 'noble', 'questing', 'resolute', 'latest', 'rolling', 'devel']
+    ],
 ]
 
 RESULTS = {}
