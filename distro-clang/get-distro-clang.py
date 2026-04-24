@@ -99,7 +99,7 @@ for ITEM in IMAGES:
     if DISTRO == 'archlinux':
         CMDS.append('pacman -Syyu --noconfirm')
         CMDS.append('pacman -S --noconfirm clang')
-    elif DISTRO in ('debian', 'ubuntu'):
+    elif DISTRO in {'debian', 'ubuntu'}:
         ENV_VARS['DEBIAN_FRONTEND'] = 'noninteractive'
 
         CMDS.append('apt-get update')
